@@ -7,12 +7,12 @@ on Ubuntu.
 
 The role uses the following variables:
 
-`sysbox_version` (string) The Sysbox version (e.g. 0.5.2).
-`sysbox_deb_sha256` (string) The Sysbox deb package SHA256 checksum.
+- `sysbox_version` (string) The Sysbox version (e.g. 0.5.2).
+- `sysbox_deb_sha256` (string) The Sysbox deb package SHA256 checksum.
 All available Sysbox versions and their SHA256 checksums of deb packages can be found in
 [GitHub](https://github.com/nestybox/sysbox/releases).
-`sysbox_deb_destination` (string) The destination of the downloaded Sysbox deb package.
-`sysbox_docker_remove_containers` (boolean) Controls whether existing Docker containers shall be removed.
+- `sysbox_deb_destination` (string) The destination of the downloaded Sysbox deb package.
+- `sysbox_docker_remove_containers` (boolean) Controls whether existing Docker containers shall be removed.
 If Docker is not running, this variable is ignored.
 
 The default values of the variables are defined in [defaults/main.yml](./defaults/main.yml)
