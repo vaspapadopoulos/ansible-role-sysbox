@@ -2,3 +2,4 @@ ansible
 paramiko
 molecule
 molecule-vagrant
+pre-commit

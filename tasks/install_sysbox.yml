@@ -12,7 +12,8 @@
     docker_running: yes
   when: docker_installed | default(false) and ansible_facts.services['docker'].state == "running"
 
-- include_tasks: remove_docker_containers.yml
+- name: Remove Docker containers
+  ansible.builtin.include_tasks: remove_docker_containers.yml
   when: |
     sysbox_installed | default(false) and
     sysbox_docker_remove_containers and
@@ -30,6 +31,7 @@
       /sysbox-ce_{{ sysbox_version }}-0.linux_amd64.deb"
     dest: "{{ sysbox_deb_destination }}/sysbox-ce_{{ sysbox_version }}-0.linux_amd64.deb"
     checksum: sha256:{{ sysbox_deb_sha256 }}
+    mode: "644"
 
 - name: Install Sysbox dependencies
   ansible.builtin.apt:
