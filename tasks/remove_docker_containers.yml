@@ -1,0 +1,10 @@
+---
+- name: List all containers
+  ansible.builtin.shell:
+    cmd: docker ps -a -q
+  register: containers
+
+- name: Stop and remove all containers
+  ansible.builtin.shell:
+    cmd: docker rm {{ containers }}
+  when: containers.stdout != ''

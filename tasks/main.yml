@@ -1,0 +1,19 @@
+---
+- name: Gather package facts
+  ansible.builtin.package_facts:
+
+- name: Check if Sysbox is installed
+  ansible.builtin.set_fact:
+    sysbox_installed: yes
+  when: "'sysbox-ce' in ansible_facts.packages"
+
+- name: Check if target Sysbox version is already installed
+  ansible.builtin.set_fact:
+    sysbox_version_installed: yes
+  when: >
+    sysbox_installed | default(false) and
+    ansible_facts.packages['sysbox-ce'][0].version | regex_search('^(\\d|[1-9]\\d)\\.(\\d|[1-9]\\d)\\.(\\d|[1-9]\\d)')
+      == sysbox_version
+
+- include_tasks: install_sysbox.yml
+  when: (not sysbox_installed | default(false)) or (not sysbox_version_installed | default(false))

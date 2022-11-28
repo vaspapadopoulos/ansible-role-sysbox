@@ -1,0 +1,5 @@
+---
+sysbox_version: 0.5.2
+sysbox_deb_sha256: f13fc0e156f72c6f8bd48e206c59482f83f19acc229701c74e0f23baafa724d8
+sysbox_deb_destination: "{{ ansible_env.HOME }}"
+sysbox_docker_remove_containers: yes

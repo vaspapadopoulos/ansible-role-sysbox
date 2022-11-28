@@ -1,0 +1,43 @@
+---
+- name: Gather service facts
+  ansible.builtin.service_facts:
+
+- name: Check if Docker is installed
+  ansible.builtin.set_fact:
+    docker_installed: yes
+  when: "'docker' in ansible_facts.services"
+
+- name: Check if Docker is running
+  ansible.builtin.set_fact:
+    docker_running: yes
+  when: docker_installed | default(false) and ansible_facts.services['docker'].state == "running"
+
+- include_tasks: remove_docker_containers.yml
+  when: |
+    sysbox_installed | default(false) and
+    sysbox_docker_remove_containers and
+    docker_running | default(false)
+
+- name: Uninstall different Sysbox version
+  ansible.builtin.apt:
+    name: sysbox-ce
+    state: absent
+  when: sysbox_installed | default(false)
+
+- name: Download Sysbox deb package
+  ansible.builtin.get_url:
+    url: "https://downloads.nestybox.com/sysbox/releases/v{{ sysbox_version }}\
+      /sysbox-ce_{{ sysbox_version }}-0.linux_amd64.deb"
+    dest: "{{ sysbox_deb_destination }}/sysbox-ce_{{ sysbox_version }}-0.linux_amd64.deb"
+    checksum: sha256:{{ sysbox_deb_sha256 }}
+
+- name: Install Sysbox dependencies
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    update_cache: yes
+  loop:
+    - jq
+
+- name: Install Sysbox from .deb package
+  ansible.builtin.apt:
+    deb: "{{ sysbox_deb_destination }}/sysbox-ce_{{ sysbox_version }}-0.linux_amd64.deb"

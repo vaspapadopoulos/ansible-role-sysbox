@@ -1,0 +1,18 @@
+---
+galaxy_info:
+  namespace: vaspapadopoulos
+  role_name: sysbox
+  author: Vasilis Papadopoulos
+  description: Install Sysbox on Ubuntu.
+  license: MIT
+  min_ansible_version: 2.13.5
+  platforms:
+    - name: Ubuntu
+      versions:
+        - focal
+  galaxy_tags:
+    - sysbox
+    - docker
+    - containers
+    - ubuntu
+dependencies: []

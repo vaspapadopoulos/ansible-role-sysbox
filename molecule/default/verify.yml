@@ -1,0 +1,21 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  pre_tasks:
+    - name: Include default vars
+      ansible.builtin.include_vars:
+        dir: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') }}/defaults/"
+        extensions:
+          - 'yml'
+  tasks:
+    - name: Gather package facts
+      ansible.builtin.package_facts:
+    - name: Check if sysbox is installed
+      ansible.builtin.assert:
+        that: "'sysbox-ce' in ansible_facts.packages"
+    - name: Check if sysbox version is correct
+      ansible.builtin.assert:
+        that: >
+          ansible_facts.packages['sysbox-ce'][0].version | regex_search('^(\\d|[1-9]\\d)\\.(\\d|[1-9]\\d)\\.(\\d|[1-9]\\d)')
+          == sysbox_version

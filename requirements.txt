@@ -1,0 +1,4 @@
+ansible
+paramiko
+molecule
+molecule-vagrant

@@ -1,0 +1,21 @@
+---
+- name: Converge
+  hosts: all
+  gather_facts: true
+  become: true
+  pre_tasks:
+    - name: Use Google's DNS server
+      ansible.builtin.lineinfile:
+        path: /etc/resolv.conf
+        line: nameserver 8.8.8.8
+    - name: Install Docker dependencies
+      ansible.builtin.apt:
+        name: "{{ item }}"
+        update_cache: yes
+      loop:
+        - gnupg
+      when: |
+        ansible_facts.distribution == 'Ubuntu' and
+        ansible_facts.distribution_version is version('20.04', '>=')
+  roles:
+    - geerlingguy.docker

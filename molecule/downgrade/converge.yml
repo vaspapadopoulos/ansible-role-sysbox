@@ -1,0 +1,10 @@
+---
+- name: Converge
+  hosts: all
+  gather_facts: true
+  become: true
+  vars:
+    sysbox_version: 0.5.0
+    sysbox_deb_sha256: eeacd9ae0e08ee5e5637e3b93e4f0cf78f20f9590ef2e7ab08347700682422f0
+  roles:
+    - vaspapadopoulos.sysbox

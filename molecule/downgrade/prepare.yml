@@ -1,0 +1,12 @@
+---
+- name: Converge
+  hosts: all
+  gather_facts: true
+  become: true
+  pre_tasks:
+    - name: Use Google's DNS server
+      ansible.builtin.lineinfile:
+        path: /etc/resolv.conf
+        line: nameserver 8.8.8.8
+  roles:
+    - vaspapadopoulos.sysbox

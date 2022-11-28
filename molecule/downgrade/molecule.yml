@@ -1,0 +1,26 @@
+---
+role_name_check: 1
+dependency:
+  name: galaxy
+driver:
+  name: vagrant
+  provider:
+    name: virtualbox
+  provision: no
+  cachier: machine
+  parallel: true
+  default_box: 'ubuntu/focal64'
+platforms:
+  - name: instance
+    hostname: instance.localhost
+    box: "${MOLECULE_DISTRO:-ubuntu/focal64}"
+    memory: 2048
+    cpus: 2
+provisioner:
+  name: ansible
+  playbooks:
+    prepare: prepare.yml
+    converge: converge.yml
+    verify: verify.yml
+verifier:
+  name: ansible
